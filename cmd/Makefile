@@ -116,6 +116,7 @@ obj-$(CONFIG_CMD_IO) += io.o
 obj-$(CONFIG_CMD_MII) += mii.o
 obj-$(CONFIG_CMD_MISC) += misc.o
 obj-$(CONFIG_CMD_MDIO) += mdio.o
+obj-$(CONFIG_CMD_AQUANTIA_FW) += aquantia_fw.o
 obj-$(CONFIG_CMD_PAUSE) += pause.o
 obj-$(CONFIG_CMD_SLEEP) += sleep.o
 obj-$(CONFIG_CMD_MMC) += mmc.o

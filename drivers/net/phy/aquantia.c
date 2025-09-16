@@ -294,6 +294,13 @@ static int aquantia_upload_firmware(struct phy_device *phydev)
 	free(fw_addr);
 	return ret;
 }
+
+/* Public interface for loading firmware from memory - used by command */
+int aquantia_upload_firmware_from_memory(struct phy_device *phydev,
+					 const u8 *fw_data, size_t fw_length)
+{
+	return aquantia_do_upload_firmware(phydev, fw_data, fw_length);
+}
 #else
 static int aquantia_upload_firmware(struct phy_device *phydev)
 {

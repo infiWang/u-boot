@@ -2139,6 +2139,15 @@ config CMD_MDIO
 	  The MDIO interface is orthogonal to the MII interface and extends
 	  it by adding access to more registers through indirect addressing.
 
+config CMD_AQUANTIA_FW
+	bool "aquantia_fw_load"
+	depends on PHYLIB && PHY_AQUANTIA
+	help
+	  Support for loading Aquantia PHY firmware from memory via MDIO.
+	  This command allows loading firmware directly from memory to an
+	  Aquantia PHY by specifying firmware address, size, MDIO bus and
+	  PHY address.
+
 config CMD_PING
 	bool "ping"
 	select PROT_RAW_LWIP if NET_LWIP
