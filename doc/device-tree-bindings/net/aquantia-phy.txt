@@ -11,15 +11,45 @@ a custom firmware is needed for each integration of a PHY.
 Several optional bindings are defined that allow these configuration points to
 be driven by the PHY driver and reduce dependency on specific FW versions.
 
+Aquantia PHY's firmware is often provided by PHY-resident SPI flash; if absent
+or outdated, U-Boot can upload firmware over MDIO during PHY initialization.
+The driver uploads only when the PHY reports missing firmware or a fault.
+
 Optional properties:
 mdi-reversal: 0 or 1 indicating that reversal must be disabled/enabled.
               Firmware default is used if the property is missing.
 smb-addr:     I2C/SMBus address to use, firmware default is used if the property
               is missing.
+firmware-name: String containing the filename of the PHY firmware to load
+               (only when CONFIG_PHY_AQUANTIA_UPLOAD_FW is enabled).
 
 Example node:
 phy@00 {
 	reg = <0x00>;
 	mdi-reversal = <1>;
 	smb-addr = <0x25>;
+	firmware-name = "aqr-firmware.cld";
+};
+
+Example using the generic firmware loader:
+/	{
+	chosen {
+		/* Select default firmware loader instance */
+		firmware-loader = &fs_loader0;
+	};
+
+	fs_loader0: fs-loader@0 {
+		bootph-all;
+		compatible = "u-boot,fs-loader";
+		/* Load from MMC0, partition 1 */
+		phandlepart = <&mmc_0 1>;
+	};
+
+	mdio {
+		phy@0 {
+			reg = <0>;
+			/* Load this file via the selected fs-loader */
+			firmware-name = "aqr-firmware.cld";
+		};
+	};
 };
